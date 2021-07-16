@@ -1,4 +1,4 @@
-###
+### 가장 먼저 테이블을 생성한다.
 POST {{host}}/api/tables
 Content-Type: application/json
 

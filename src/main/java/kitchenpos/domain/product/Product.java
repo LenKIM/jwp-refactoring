@@ -27,10 +27,6 @@ public class Product {
         return new Product(null, name, price);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
     }
@@ -41,14 +37,6 @@ public class Product {
 
     public Price getPrice() {
         return price;
-    }
-
-    public void setName(Name name) {
-        this.name = name;
-    }
-
-    public void setPrice(Price price) {
-        this.price = price;
     }
 
     @Override
@@ -64,12 +52,4 @@ public class Product {
         return Objects.hash(id, name, price);
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name=" + name +
-                ", price=" + price +
-                '}';
-    }
 }
