@@ -1,6 +1,6 @@
 package kitchenpos.repository;
 
-import kitchenpos.domain.MenuGroup;
+import kitchenpos.domain.menugroup.MenuGroup;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
