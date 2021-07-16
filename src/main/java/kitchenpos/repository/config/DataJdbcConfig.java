@@ -13,7 +13,8 @@ public class DataJdbcConfig extends AbstractJdbcConfiguration {
     @Bean
     public JdbcCustomConversions jdbcCustomConversions() {
         return new JdbcCustomConversions(Arrays.asList(
-                // TODO
+                Converters.NameToString.INSTANCE, Converters.StringToName.INSTANCE,
+                Converters.DecimalToPrice.INSTANCE, Converters.PriceToDecimal.INSTANCE
         ));
     }
 }
