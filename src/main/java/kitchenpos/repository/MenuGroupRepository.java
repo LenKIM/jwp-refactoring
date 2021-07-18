@@ -12,6 +12,10 @@ public interface MenuGroupRepository extends CrudRepository<MenuGroup, Long> {
 
     Optional<MenuGroup> findById(Long id);
 
+    default MenuGroup findMenuGroupById(Long id){
+        return findById(id).orElseThrow(IllegalArgumentException::new);
+    }
+
     List<MenuGroup> findAll();
 
     boolean existsById(Long id);

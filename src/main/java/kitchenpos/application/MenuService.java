@@ -5,31 +5,28 @@ import kitchenpos.domain.menu.MenuProduct;
 import kitchenpos.domain.menu.Price;
 import kitchenpos.domain.product.Product;
 import kitchenpos.repository.MenuGroupRepository;
-import kitchenpos.repository.MenuProductRepository;
 import kitchenpos.repository.MenuRepository;
 import kitchenpos.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class MenuService {
     private final MenuRepository menuRepository;
     private final MenuGroupRepository menuGroupRepository;
-    private final MenuProductRepository menuProductRepository;
     private final ProductRepository productRepository;
 
     public MenuService(
             final MenuRepository menuRepository,
             final MenuGroupRepository menuGroupRepository,
-            final MenuProductRepository menuProductRepository,
             final ProductRepository productRepository
     ) {
         this.menuRepository = menuRepository;
         this.menuGroupRepository = menuGroupRepository;
-        this.menuProductRepository = menuProductRepository;
         this.productRepository = productRepository;
     }
 
@@ -37,47 +34,28 @@ public class MenuService {
     public Menu create(final Menu menu) {
         final Price price = menu.getPrice();
 
-        if (Objects.isNull(price) || price.getValue().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException();
-        }
-
-        if (!menuGroupRepository.existsById(menu.getMenuGroupId())) {
+        if (menuGroupRepository.existsById(menu.getMenuGroupId())) {
             throw new IllegalArgumentException();
         }
 
         final Set<MenuProduct> menuProducts = menu.getMenuProducts();
 
+        // TODO 도메인 이벤트를 통한 관심사 분리 를 적용해보면 어떠할까? @DomainEvents 활용하기
         BigDecimal sum = BigDecimal.ZERO;
         for (final MenuProduct menuProduct : menuProducts) {
-            final Product product = productRepository.findById(menuProduct.getProductId())
-                    .orElseThrow(IllegalArgumentException::new);
-            sum = sum.add(product.getPrice().getValue().multiply(BigDecimal.valueOf(menuProduct.getQuantity())));
+            final Product product = productRepository.findProductById(menuProduct.getProductId());
+            BigDecimal multiply = product.getMultiplyPrice(menuProduct.getQuantity());
+            sum = sum.add(multiply);
         }
 
         if (price.getValue().compareTo(sum) > 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Price");
         }
 
-        final Menu savedMenu = menuRepository.save(menu);
-
-        final Long menuId = savedMenu.getId();
-        final Set<MenuProduct> savedMenuProducts = new HashSet<>();
-        for (final MenuProduct menuProduct : menuProducts) {
-//            menuProduct.setMenuId(menuId);
-            savedMenuProducts.add(menuProductRepository.save(menuProduct));
-        }
-        savedMenu.setMenuProducts(savedMenuProducts);
-
-        return savedMenu;
+        return menuRepository.save(menu);
     }
 
     public List<Menu> list() {
-        final List<Menu> menus = menuRepository.findAll();
-
-        for (final Menu menu : menus) {
-//            menu.setMenuProducts(menuProductRepository.findAllByMenuId(menu.getId()));
-        }
-
-        return menus;
+        return menuRepository.findAll();
     }
 }

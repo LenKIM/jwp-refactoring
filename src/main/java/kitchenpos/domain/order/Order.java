@@ -32,8 +32,8 @@ public class Order {
         this.orderLineItems = orderLineItems;
     }
 
-    public static Order of(OrderTableRef orderTable, OrderStatus orderStatus, LocalDateTime orderedTime, Set<OrderLineItem> orderLineItems) {
-        return new Order(null, orderTable, orderStatus, orderedTime, orderLineItems);
+    public static Order of(OrderTableRef orderTable, Set<OrderLineItem> orderLineItems) {
+        return new Order(null, orderTable, OrderStatus.COOKING, LocalDateTime.now(), orderLineItems);
     }
 
     public Long getId() {
@@ -54,5 +54,9 @@ public class Order {
 
     public Set<OrderLineItem> getOrderLineItems() {
         return orderLineItems;
+    }
+
+    public void changeStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

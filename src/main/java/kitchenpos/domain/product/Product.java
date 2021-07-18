@@ -3,6 +3,7 @@ package kitchenpos.domain.product;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Product {
@@ -52,4 +53,7 @@ public class Product {
         return Objects.hash(id, name, price);
     }
 
+    public BigDecimal getMultiplyPrice(long quantity) {
+        return this.price.multiply(quantity);
+    }
 }

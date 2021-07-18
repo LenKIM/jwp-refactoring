@@ -44,4 +44,8 @@ public class Price {
     public int hashCode() {
         return Objects.hash(value);
     }
+
+    public BigDecimal multiply(long quantity) {
+        return this.value.multiply(BigDecimal.valueOf(quantity));
+    }
 }

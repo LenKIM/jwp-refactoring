@@ -13,7 +13,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
         return this.findById(id).orElseThrow(IllegalArgumentException::new);
     };
 
-
-
     List<Product> findAll();
+
+
 }

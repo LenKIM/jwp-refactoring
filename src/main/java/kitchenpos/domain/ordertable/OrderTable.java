@@ -54,4 +54,12 @@ public class OrderTable {
     public int hashCode() {
         return Objects.hash(id, numberOfGuests, empty);
     }
+
+    public void changeEmptyTable() {
+        this.empty = true;
+    }
+
+    public void changeNonEmptyTable() {
+        this.empty = false;
+    }
 }

@@ -25,5 +25,11 @@ class MenuGroupRepositoryTest {
         assertThat(save.getId()).isNotNull();
     }
 
+    @Test
+    void existTest() {
+        MenuGroup menuGroup = MenuGroup.of("half-chicken");
+        MenuGroup save = menuGroupRepository.save(menuGroup);
 
+        assertThat(menuGroupRepository.existsById(save.getId())).isTrue();
+    }
 }
