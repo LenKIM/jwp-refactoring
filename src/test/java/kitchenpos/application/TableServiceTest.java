@@ -1,7 +1,7 @@
 package kitchenpos.application;
 
-import kitchenpos.dao.OrderDao;
 import kitchenpos.domain.ordertable.OrderTable;
+import kitchenpos.repository.OrderRepository;
 import kitchenpos.repository.OrderTableRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +29,7 @@ class TableServiceTest {
     TableService tableService;
 
     @Mock
-    OrderDao orderDao;
+    OrderRepository orderRepository;
     @Mock
     OrderTableRepository orderTableRepository;
     

@@ -1,8 +1,8 @@
 package kitchenpos.application;
 
-import kitchenpos.dao.OrderDao;
 import kitchenpos.domain.ordertable.OrderTable;
 import kitchenpos.domain.tablegroup.OrderTableRef;
+import kitchenpos.repository.OrderRepository;
 import kitchenpos.repository.OrderTableRepository;
 import kitchenpos.domain.tablegroup.TableGroup;
 import kitchenpos.repository.TableGroupRepository;
@@ -17,14 +17,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class TableGroupService {
-    private final OrderDao orderDao;
+    private final OrderRepository orderRepository;
     private final OrderTableRepository orderTableDao;
     private final TableGroupRepository tableGroupRepository;
 
-    public TableGroupService(final OrderDao orderDao,
+    public TableGroupService(final OrderRepository orderRepository,
                              final OrderTableRepository orderTableDao,
                              final TableGroupRepository tableGroupRepository) {
-        this.orderDao = orderDao;
+        this.orderRepository = orderRepository;
         this.orderTableDao = orderTableDao;
         this.tableGroupRepository = tableGroupRepository;
     }

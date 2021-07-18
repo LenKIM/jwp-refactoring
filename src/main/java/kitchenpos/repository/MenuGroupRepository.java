@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface MenuGroupRepository extends CrudRepository<MenuGroup, Long> {
 
-    MenuGroup save(MenuGroup entity);
+    <S extends MenuGroup> S save(S entity);
 
     Optional<MenuGroup> findById(Long id);
 

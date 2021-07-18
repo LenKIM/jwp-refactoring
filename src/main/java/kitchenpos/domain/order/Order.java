@@ -1,52 +1,58 @@
 package kitchenpos.domain.order;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Table("ORDERS")
 public class Order {
+
+    @Id
     private Long id;
-    private Long orderTableId;
-    private String orderStatus;
+
+    @Column("ORDERS_ID")
+    private OrderTableRef orderTable;
+
+    private OrderStatus orderStatus;
     private LocalDateTime orderedTime;
-    private List<OrderLineItem> orderLineItems;
+
+    @Column("ORDERS_ID")
+    private Set<OrderLineItem> orderLineItems;
+
+    @PersistenceConstructor
+    private Order(Long id, OrderTableRef orderTable, OrderStatus orderStatus, LocalDateTime orderedTime, Set<OrderLineItem> orderLineItems) {
+        this.id = id;
+        this.orderTable = orderTable;
+        this.orderStatus = orderStatus;
+        this.orderedTime = orderedTime;
+        this.orderLineItems = orderLineItems;
+    }
+
+    public static Order of(OrderTableRef orderTable, OrderStatus orderStatus, LocalDateTime orderedTime, Set<OrderLineItem> orderLineItems) {
+        return new Order(null, orderTable, orderStatus, orderedTime, orderLineItems);
+    }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(final Long id) {
-        this.id = id;
+    public OrderTableRef getOrderTableRef() {
+        return orderTable;
     }
 
-    public Long getOrderTableId() {
-        return orderTableId;
-    }
-
-    public void setOrderTableId(final Long orderTableId) {
-        this.orderTableId = orderTableId;
-    }
-
-    public String getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
-    }
-
-    public void setOrderStatus(final String orderStatus) {
-        this.orderStatus = orderStatus;
     }
 
     public LocalDateTime getOrderedTime() {
         return orderedTime;
     }
 
-    public void setOrderedTime(final LocalDateTime orderedTime) {
-        this.orderedTime = orderedTime;
-    }
-
-    public List<OrderLineItem> getOrderLineItems() {
+    public Set<OrderLineItem> getOrderLineItems() {
         return orderLineItems;
-    }
-
-    public void setOrderLineItems(final List<OrderLineItem> orderLineItems) {
-        this.orderLineItems = orderLineItems;
     }
 }
