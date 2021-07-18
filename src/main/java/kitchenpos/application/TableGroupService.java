@@ -18,14 +18,14 @@ import java.util.stream.Collectors;
 @Service
 public class TableGroupService {
     private final OrderRepository orderRepository;
-    private final OrderTableRepository orderTableDao;
+    private final OrderTableRepository orderTableRepository;
     private final TableGroupRepository tableGroupRepository;
 
     public TableGroupService(final OrderRepository orderRepository,
-                             final OrderTableRepository orderTableDao,
+                             final OrderTableRepository orderTableRepository,
                              final TableGroupRepository tableGroupRepository) {
         this.orderRepository = orderRepository;
-        this.orderTableDao = orderTableDao;
+        this.orderTableRepository = orderTableRepository;
         this.tableGroupRepository = tableGroupRepository;
     }
 
@@ -41,7 +41,7 @@ public class TableGroupService {
                 .map(OrderTableRef::getOrderTableId)
                 .collect(Collectors.toList());
 
-        final Set<OrderTable> savedOrderTables = orderTableDao.findAllByIdIn(orderTableIds);
+        final Set<OrderTable> savedOrderTables = orderTableRepository.findAllByIdIn(orderTableIds);
 
         if (orderTables.size() != savedOrderTables.size()) {
             throw new IllegalArgumentException();
@@ -55,35 +55,12 @@ public class TableGroupService {
 
         tableGroup.setCreatedDate(LocalDateTime.now());
 
-        final TableGroup savedTableGroup = tableGroupRepository.save(tableGroup);
-
-        final Long tableGroupId = savedTableGroup.getId();
-//        for (final OrderTable savedOrderTable : savedOrderTables) {
-//            savedOrderTable.setTableGroupId(tableGroupId);
-//            savedOrderTable.setEmpty(false);
-//            orderTableDao.save(savedOrderTable);
-//        }
-//        savedTableGroup.setOrderTables(savedOrderTables);
-
-        return savedTableGroup;
+        return tableGroupRepository.save(tableGroup);
     }
 
     @Transactional
     public void ungroup(final Long tableGroupId) {
-//        final List<OrderTable> orderTables = orderTableDao.findAllByTableGroupId(tableGroupId);
-//
-//        final List<Long> orderTableIds = orderTables.stream()
-//                .map(OrderTable::getId)
-//                .collect(Collectors.toList());
-//
-//        if (orderDao.existsByOrderTableIdInAndOrderStatusIn(
-//                orderTableIds, Arrays.asList(OrderStatus.COOKING.name(), OrderStatus.MEAL.name()))) {
-//            throw new IllegalArgumentException();
-//        }
-//
-//        for (final OrderTable orderTable : orderTables) {
-//            orderTable.setTableGroupId(null);
-//            orderTableDao.save(orderTable);
-//        }
+        TableGroup tableGroup = tableGroupRepository.findTableGroup(tableGroupId);
+        tableGroupRepository.delete(tableGroup);
     }
 }
