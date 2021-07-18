@@ -1,17 +1,18 @@
 package kitchenpos.repository;
 
-import kitchenpos.domain.MenuProduct;
+import kitchenpos.domain.menu.MenuProduct;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface MenuProductRepository extends CrudRepository<MenuProduct, Long> {
     MenuProduct save(MenuProduct entity);
 
-    Optional<MenuProduct> findById(Long id);
+    Optional<MenuProduct> findBySeq(Long id);
 
     List<MenuProduct> findAll();
 
-    List<MenuProduct> findAllByMenuId(Long menuId);
+//    Set<MenuProduct> findAllByMenuId(Long menuId);
 }

@@ -1,7 +1,6 @@
 package kitchenpos.repository;
 
-import kitchenpos.domain.Menu;
-import org.apache.juli.logging.Log;
+import kitchenpos.domain.menu.Menu;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

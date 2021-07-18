@@ -49,4 +49,25 @@ public class Converters {
             return Price.of(source);
         }
     }
+
+    @WritingConverter
+    public enum MenuPriceToDecimal implements Converter<kitchenpos.domain.menu.Price, BigDecimal> {
+        INSTANCE;
+
+        @Override
+        public BigDecimal convert(kitchenpos.domain.menu.Price source) {
+
+            return source.getValue();
+        }
+    }
+
+    @ReadingConverter
+    public enum DecimalToMenuPrice implements Converter<BigDecimal, kitchenpos.domain.menu.Price> {
+        INSTANCE;
+
+        @Override
+        public kitchenpos.domain.menu.Price convert(BigDecimal source) {
+            return kitchenpos.domain.menu.Price.of(source);
+        }
+    }
 }

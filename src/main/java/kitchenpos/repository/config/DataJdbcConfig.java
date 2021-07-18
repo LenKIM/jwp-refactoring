@@ -14,7 +14,8 @@ public class DataJdbcConfig extends AbstractJdbcConfiguration {
     public JdbcCustomConversions jdbcCustomConversions() {
         return new JdbcCustomConversions(Arrays.asList(
                 Converters.NameToString.INSTANCE, Converters.StringToName.INSTANCE,
-                Converters.DecimalToPrice.INSTANCE, Converters.PriceToDecimal.INSTANCE
+                Converters.DecimalToPrice.INSTANCE, Converters.PriceToDecimal.INSTANCE,
+                Converters.DecimalToMenuPrice.INSTANCE, Converters.MenuPriceToDecimal.INSTANCE
         ));
     }
 }
